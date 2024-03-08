@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Security;
+using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 public class WorldGenerator : MonoBehaviour
@@ -13,7 +15,12 @@ public class WorldGenerator : MonoBehaviour
     [SerializeField] private float scale;
     [SerializeField] private float worldMoveSpeed;
     [SerializeField] private int startTransitionLength;
+    [SerializeField] private int gateChance;
+    [SerializeField] private int startObstacleChance;
+    [SerializeField] private GameObject[] obstacles;
+    [SerializeField] private GameObject gate;
 
+    private GameObject currentCyliner;
     private Vector3[] beginPoints;
     private readonly float randomness = 0.1f;
     private readonly GameObject[] pieces = new GameObject[2];
@@ -74,7 +81,7 @@ public class WorldGenerator : MonoBehaviour
         {
             name = "World Piece"
         };
-
+        currentCyliner = newCylinder;
 
         MeshFilter meshFilter = newCylinder.AddComponent<MeshFilter>();
         MeshRenderer meshRenderer = newCylinder.AddComponent<MeshRenderer>();
@@ -143,6 +150,11 @@ public class WorldGenerator : MonoBehaviour
                     beginPoints[x] = vertices[index];
                 }
 
+                if (Random.Range(0, startObstacleChance) == 0 && !(gate == null && obstacles.Length == 0))
+                {
+                    CreateItem(vertices[index], x);
+                }
+
                 index++;
             }
         }
@@ -177,6 +189,23 @@ public class WorldGenerator : MonoBehaviour
                 index += 6;
             }
         }
+    }
+
+    void CreateItem(Vector3 vert, int x)
+    {
+        Vector3 zCenter = new(0, 0, vert.z);
+        GameObject newItem;
+        if (Random.Range(0, gateChance) == 0)
+        {
+            newItem = Instantiate(gate);
+        }
+        else
+        {
+            newItem = Instantiate(obstacles[Random.Range(0, obstacles.Length)]);
+        }
+        newItem.transform.rotation = Quaternion.LookRotation(zCenter - vert, Vector3.up);
+        newItem.transform.position = vert;
+        newItem.transform.SetParent(currentCyliner.transform, false);
     }
 
     public GameObject GetWorldPiece()

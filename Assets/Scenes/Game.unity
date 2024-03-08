@@ -1109,6 +1109,11 @@ MonoBehaviour:
   scale: 0.8
   worldMoveSpeed: 30
   startTransitionLength: 20
+  gateChance: 10
+  startObstacleChance: 100
+  obstacles:
+  - {fileID: 7006242003833828467, guid: 976499eacbd0ddfff85211bc6eb4f1e9, type: 3}
+  gate: {fileID: 8973033535754980343, guid: 85d81b8d80f900c2b83ea3b12a5f562a, type: 3}
 --- !u!4 &1420749589
 Transform:
   m_ObjectHideFlags: 0
