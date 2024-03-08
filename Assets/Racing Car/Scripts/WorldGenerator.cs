@@ -14,6 +14,7 @@ public class WorldGenerator : MonoBehaviour
     [SerializeField] private float waveHeithg;
     [SerializeField] private float scale;
     [SerializeField] private float worldMoveSpeed;
+    [SerializeField] private float worldRotateSpeed;
     [SerializeField] private int startTransitionLength;
     [SerializeField] private int gateChance;
     [SerializeField] private int startObstacleChance;
@@ -59,14 +60,15 @@ public class WorldGenerator : MonoBehaviour
     void GenerateWorldPiece(int i)
     {
         pieces[i] = CreateCylinder();
-        pieces[i].transform.Translate(Vector3.forward * (dimensions.y * scale * Mathf.PI) * i);
+        pieces[i].transform.Translate(dimensions.y * scale * Mathf.PI * i * Vector3.forward);
         UpdateSinglePiece(pieces[i]);
     }
 
     void UpdateSinglePiece(GameObject piece)
     {
         BasicMovement basicMovement = piece.AddComponent<BasicMovement>();
-        basicMovement.setSpeed(worldMoveSpeed);
+        basicMovement.SetMoveSpeed(worldMoveSpeed);
+        basicMovement.SetRotateSpeed(worldRotateSpeed);
 
         GameObject endPoint = new();
         endPoint.transform.position = piece.transform.position + Vector3.forward * (dimensions.y * scale * Mathf.PI);

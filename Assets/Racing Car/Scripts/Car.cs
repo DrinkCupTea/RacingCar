@@ -10,7 +10,7 @@ public class Car : MonoBehaviour
     [SerializeField] private WheelCollider[] wheelColliders;
 
     [SerializeField] private int rotateSpeed;
-    [SerializeField] private int rotationAngle;
+    [SerializeField] public int rotationAngle;
     [SerializeField] private int wheelRotateSpeed;
     [SerializeField] private Vector3 centerOfMass;
     [SerializeField] private Transform[] grassEffects;
