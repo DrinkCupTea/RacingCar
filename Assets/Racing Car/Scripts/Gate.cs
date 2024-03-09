@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class Gate : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private AudioSource gateSound;
     private bool addedScore = false;
-    void Start()
-    {
-
-    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -18,11 +14,11 @@ public class Gate : MonoBehaviour
             return;
         }
         addedScore = true;
+        gateSound.Play();
         if (other.gameObject.transform.root.CompareTag("Player"))
         {
             GameManager gameManager = FindObjectOfType<GameManager>();
             gameManager.UpdateScore(5);
-            Destroy(gameObject);
         }
     }
 }

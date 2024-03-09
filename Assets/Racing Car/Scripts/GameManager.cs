@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -10,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameOverScoreText;
     [SerializeField] private TextMeshProUGUI gameOverBestText;
     [SerializeField] private Animator gameOverAnimator;
+    [SerializeField] private AudioSource gameOverSound;
     private Car player;
     private float time;
     private int score;
@@ -25,6 +24,11 @@ public class GameManager : MonoBehaviour
     {
         player = FindAnyObjectByType<Car>();
         UpdateTimer();
+
+        if (isGameOver && (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0)))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
+        }
     }
 
     void UpdateTimer()
@@ -73,6 +77,7 @@ public class GameManager : MonoBehaviour
         SetScore();
         isGameOver = true;
         gameOverAnimator.SetTrigger("Game Over");
+        gameOverSound.Play();
 
         player.FallApart();
 
