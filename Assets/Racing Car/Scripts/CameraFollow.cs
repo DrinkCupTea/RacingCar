@@ -28,8 +28,6 @@ public class CameraFollow : MonoBehaviour
         transform.position = target.position;
         transform.position -= currentRotation * Vector3.forward * distance;
         transform.position = new Vector3(transform.position.x, currentHeight, transform.position.z);
-
-
         transform.LookAt(target);
     }
 }
