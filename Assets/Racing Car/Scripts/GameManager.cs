@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private Animator gameOverAnimator;
     private float time;
     private int score;
     private bool isGameOver;
@@ -55,18 +56,28 @@ public class GameManager : MonoBehaviour
         // scoreText.SetText("Score: " + score);
     }
 
-    public void CheckGameOver()
+    public void GameOver()
     {
         if (isGameOver)
         {
             return;
         }
+        SetScore();
         isGameOver = true;
+        gameOverAnimator.SetTrigger("Game Over");
 
         foreach (BasicMovement basicMovement in FindObjectsOfType<BasicMovement>())
         {
             basicMovement.SetMoveSpeed(0);
             basicMovement.SetRotateSpeed(0);
+        }
+    }
+
+    public void SetScore()
+    {
+        if (score > PlayerPrefs.GetInt("HeighestScor", 0))
+        {
+            PlayerPrefs.SetInt("HeighestScore", score);
         }
     }
 }

@@ -141,7 +141,7 @@ public class WorldGenerator : MonoBehaviour
                 Vector3 center = new Vector3(0, 0, vertices[index].z);
                 vertices[index] += (center - vertices[index]).normalized * Mathf.PerlinNoise(pX, pZ) * waveHeithg;
 
-                if (z < startTransitionLength && beginPoints[0] != Vector3.zero)
+                if (z < startTransitionLength && beginPoints[x] != Vector3.zero)
                 {
                     float perlinPercentage = z / (float)startTransitionLength;
                     Vector3 beginPoint = new(beginPoints[x].x, beginPoints[x].y, vertices[index].z);

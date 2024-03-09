@@ -40,6 +40,10 @@ public class BasicMovement : MonoBehaviour
 
     public void SetRotateSpeed(float speed)
     {
+        if (speed < 0)
+        {
+            speed = 0;
+        }
         m_rotateSpeed = speed;
     }
 
