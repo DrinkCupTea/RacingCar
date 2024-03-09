@@ -19,6 +19,7 @@ public class Car : MonoBehaviour
     [SerializeField] private GameObject skidMarkPrefab;
     [SerializeField] private float skidMarkDelay;
     [SerializeField] private float skidMarkSize;
+    [SerializeField] private GameObject ragdoll;
 
     private WorldGenerator worldGenerator;
     private int targetRotation;
@@ -121,6 +122,12 @@ public class Car : MonoBehaviour
                 newSkidMark.transform.localScale = new Vector3(1, 1, 4) * skidMarkSize;
             }
         }
+    }
+
+    public void FallApart()
+    {
+        Instantiate(ragdoll, transform.position, transform.rotation);
+        gameObject.SetActive(false);
     }
 
 }

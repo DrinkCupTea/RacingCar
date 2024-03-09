@@ -7,7 +7,10 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI gameOverScoreText;
+    [SerializeField] private TextMeshProUGUI gameOverBestText;
     [SerializeField] private Animator gameOverAnimator;
+    private Car player;
     private float time;
     private int score;
     private bool isGameOver;
@@ -20,11 +23,16 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        player = FindAnyObjectByType<Car>();
         UpdateTimer();
     }
 
     void UpdateTimer()
     {
+        if (isGameOver)
+        {
+            return;
+        }
         time += Time.deltaTime;
         int timer = (int)time;
         int miliseconds = (int)((time - timer) * 100);
@@ -66,6 +74,8 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         gameOverAnimator.SetTrigger("Game Over");
 
+        player.FallApart();
+
         foreach (BasicMovement basicMovement in FindObjectsOfType<BasicMovement>())
         {
             basicMovement.SetMoveSpeed(0);
@@ -79,5 +89,7 @@ public class GameManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("HeighestScore", score);
         }
+        gameOverScoreText.SetText("Score:" + score);
+        gameOverBestText.SetText("Best: " + PlayerPrefs.GetInt("HeighestScore", 0));
     }
 }
